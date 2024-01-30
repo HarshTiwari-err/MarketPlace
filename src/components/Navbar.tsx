@@ -68,7 +68,7 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <div className="ml-4 flow-root lg:ml-6"><Cart/></div>
+              <div className="hidden ml-4 lg:flow-root lg:ml-6"><Cart/></div> 
             </div>
           </div>
         </MaxWidthWrapper>
