@@ -22,7 +22,7 @@ export const authRouter = router({
       });
       if (users.length !== 0) throw new TRPCError({ code: "CONFLICT" });
 
-      await payload.create({
+      const response = await payload.create({
         collection: "users",
         data: {
           email,
@@ -31,7 +31,42 @@ export const authRouter = router({
         },
       });
       return { success: true, sentToEmail: email };
+    }),
+  verifyEmail: publicProcedure
+    .input(z.object({ token: z.string() }))
+    .query(async ({ input }) => {
+      const { token } = input;
 
-      // return { success: true, sentToEmail: email };
+      const payload = await getPayloadClient();
+      const isVerified = await payload.verifyEmail({
+        collection: "users",
+        token,
+      });
+
+      if (!isVerified) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      return { success: true };
+    }),
+  signIn: publicProcedure
+    .input(AuthCredentialsValidator)
+    .mutation(async ({ input, ctx }) => {
+      const { email, password } = input;
+      const payload = await getPayloadClient();
+      const { res } = ctx;
+      try {
+        await payload.login({
+          collection: "users",
+          data: {
+            email,
+            password,
+          },
+          res, // set cookie from server
+        });
+        return { success: true };
+      } catch (err) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
     }),
 });
