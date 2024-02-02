@@ -42,10 +42,10 @@ const Page = () => {
   const { mutate: signIn, isLoading } = trpc.auth.signIn.useMutation({
     onSuccess: () => {
       toast.success("Signed in successfully");
-      router.refresh(); // to show the fresh info at navbar (refresh the page to fetch latest report)
       if (origin) router.push(`/origin`);
       else if (isSeller) router.push("/sell");
       else router.push("/");
+      router.refresh(); // to show the fresh info at navbar (refresh the page to fetch latest report)
     },
     onError: (err) => {
       if (err.data?.code === "UNAUTHORIZED") {

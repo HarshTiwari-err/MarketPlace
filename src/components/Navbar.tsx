@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Icons } from "./Icons";
@@ -6,10 +7,11 @@ import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
 import { getServerSideUser } from "@/lib/payload-utils";
 import { cookies } from "next/headers";
-
-const Navbar = async() => {
+import UserAccountNav from "./UserAccountNav";
+const Navbar = async () => {
   const nextCookies = cookies();
   const { user } = await getServerSideUser(nextCookies);
+
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
       <header>
@@ -44,7 +46,7 @@ const Navbar = async() => {
                   )}
 
                   {user ? (
-                    <p></p>
+                    <UserAccountNav user={user}/>
                   ) : (
                     <Link
                       href="/sign-up"
