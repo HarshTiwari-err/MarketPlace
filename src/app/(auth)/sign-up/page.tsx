@@ -18,7 +18,6 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
-import router from "next/navigation";
 
 const Page = () => {
   const {
