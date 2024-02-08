@@ -60,15 +60,6 @@ export const Users: CollectionConfig = {
         { label: "Admin", value: "admin" },
         { label: "User", value: "user" },
       ],
-      admin:{
-        condition: (data, siblingData, { user }) => {
-          if (user.role === 'admin') {
-            return true
-          } else {
-            return false
-          }
-        },
-      }
     },
   ],
 };
